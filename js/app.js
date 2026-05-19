@@ -10,6 +10,10 @@ const TOTAL_PAGES = TOTAL_QUESTIONS / QUESTIONS_PER_PAGE; // 10
 const TOTAL_ITEMS = TOTAL_QUESTIONS + 4; // 100题 + 4道基本信息
 const STORAGE_KEY = 'survey_new_media_values';
 
+// 后端 API 地址（部署后端后替换为实际地址，如 'https://xxx.onrender.com'）
+// 留空则使用相对路径（前后端部署在同一服务器时）
+const API_BASE = '';
+
 // ==================== 全局状态 ====================
 const STATE = {
   demographics: { gender: '', grade: '', major: '', usageTime: '' },
@@ -36,6 +40,9 @@ const DOM = {
   questionContainer: $('#question-container'),
   pageInfo: $('#page-info'),
   statsSummary: $('#stats-summary'),
+  submitStatus: $('#submit-status'),
+  submitIcon: $('#submit-icon'),
+  submitText: $('#submit-text'),
   toast: $('#toast')
 };
 
@@ -423,10 +430,20 @@ function goToPrevQuestionPage() {
 function initQuestions() {
   $('#btn-q-next').addEventListener('click', goToNextQuestionPage);
   $('#btn-q-prev').addEventListener('click', goToPrevQuestionPage);
+  $('#btn-q-home').addEventListener('click', () => {
+    saveToStorage();
+    showPage('welcome');
+    // 回到欢迎页后刷新恢复状态提示
+    const hasData = (Object.values(STATE.demographics).some(v => v !== '') || Object.keys(STATE.answers).length > 0);
+    if (hasData) {
+      DOM.resumeBanner.classList.remove('hidden');
+      $('#btn-start').classList.add('hidden');
+    }
+  });
 }
 
 // ==================== 完成页 ====================
-function renderCompletion() {
+async function renderCompletion() {
   const demoCount = Object.values(STATE.demographics).filter(v => v !== '').length;
   const qCount = Object.keys(STATE.answers).length;
   const total = demoCount + qCount;
@@ -438,6 +455,32 @@ function renderCompletion() {
     <p>整体完成度：${Math.round((total / totalItems) * 100)}%</p>
     ${qCount < TOTAL_QUESTIONS ? `<p style="color: var(--color-error); margin-top: 8px; font-size: 0.85rem;">注意：还有 ${TOTAL_QUESTIONS - qCount} 道题未作答，建议返回完成后再导出</p>` : ''}
   `;
+
+  // 提交到后端服务器
+  const submitEl = DOM.submitStatus;
+  const iconEl = DOM.submitIcon;
+  const textEl = DOM.submitText;
+
+  if (!API_BASE && typeof window !== 'undefined' && !window.SURVEY_API_BASE) {
+    submitEl.classList.add('hidden');
+    return;
+  }
+
+  submitEl.className = 'submit-status loading';
+  iconEl.textContent = '⏳';
+  textEl.textContent = '正在提交数据到服务器...';
+
+  const result = await submitToServer();
+
+  if (result.success) {
+    submitEl.className = 'submit-status success';
+    iconEl.textContent = '✓';
+    textEl.textContent = `数据已成功提交（编号：${result.id}）`;
+  } else {
+    submitEl.className = 'submit-status error';
+    iconEl.textContent = '✗';
+    textEl.textContent = `提交失败：${result.reason}（您仍可导出Excel）`;
+  }
 }
 
 function initCompletion() {
@@ -554,6 +597,41 @@ function exportAsCsv() {
   a.click();
   URL.revokeObjectURL(url);
   showToast('已导出 CSV 文件（可用 Excel 打开）');
+}
+
+// ==================== 提交到后端服务器 ====================
+
+async function submitToServer() {
+  // 如果没有配置后端地址，跳过
+  if (!API_BASE && typeof window !== 'undefined' && !window.SURVEY_API_BASE) {
+    return { success: false, reason: '未配置后端地址' };
+  }
+
+  const baseUrl = API_BASE || (window.SURVEY_API_BASE || '');
+  if (!baseUrl) return { success: false, reason: '未配置后端地址' };
+
+  try {
+    const res = await fetch(baseUrl + '/api/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        demographics: STATE.demographics,
+        answers: STATE.answers,
+        submitTime: new Date().toISOString()
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || '服务器错误');
+    }
+
+    const data = await res.json();
+    return { success: true, id: data.id };
+  } catch (e) {
+    console.error('提交到服务器失败:', e.message);
+    return { success: false, reason: e.message };
+  }
 }
 
 function getDemoLabel(field, value) {

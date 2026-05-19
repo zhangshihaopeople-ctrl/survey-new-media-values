@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>问卷管理后台 — 基于新媒体对大学生价值观的影响</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div class="admin-container">
+    <!-- 登录面板 -->
+    <div id="login-panel" class="panel">
+      <div class="panel-header">
+        <h1>问卷管理后台</h1>
+        <p>请输入管理员密码以查看答卷数据</p>
+      </div>
+      <div class="login-form">
+        <input type="password" id="password-input" class="input" placeholder="请输入管理员密码" autocomplete="off">
+        <span id="login-error" class="error-msg"></span>
+        <button id="btn-login" class="btn btn-primary btn-block">登 录</button>
+      </div>
+    </div>
+
+    <!-- 数据面板 -->
+    <div id="data-panel" class="panel hidden">
+      <div class="panel-header">
+        <h1>问卷管理后台</h1>
+        <div class="header-actions">
+          <button id="btn-refresh" class="btn btn-secondary">刷新数据</button>
+          <button id="btn-export" class="btn btn-primary">导出 Excel</button>
+          <button id="btn-logout" class="btn btn-text">退出登录</button>
+        </div>
+      </div>
+
+      <div class="stats-bar">
+        <div class="stat-card">
+          <span class="stat-number" id="total-count">0</span>
+          <span class="stat-label">答卷总数</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="today-count">0</span>
+          <span class="stat-label">今日新增</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="complete-rate">0%</span>
+          <span class="stat-label">平均完成度</span>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table id="data-table">
+          <thead>
+            <tr>
+              <th>编号</th>
+              <th>性别</th>
+              <th>年级</th>
+              <th>专业</th>
+              <th>使用时长</th>
+              <th>完成题数</th>
+              <th>提交时间</th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <tr><td colspan="7" class="empty-msg">暂无数据</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

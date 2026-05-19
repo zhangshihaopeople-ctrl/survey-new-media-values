@@ -113,7 +113,7 @@
         </div>
 
         <div class="nav-buttons">
-          <button id="btn-demo-prev" class="btn btn-secondary" disabled>上一步</button>
+          <button id="btn-demo-prev" class="btn btn-secondary">返回首页</button>
           <button id="btn-demo-next" class="btn btn-primary">下一步</button>
         </div>
       </div>
@@ -133,9 +133,12 @@
         <div id="question-container"></div>
 
         <div class="nav-buttons">
-          <button id="btn-q-prev" class="btn btn-secondary">上一页</button>
-          <span id="page-info" class="page-info"></span>
-          <button id="btn-q-next" class="btn btn-primary">下一页</button>
+          <button id="btn-q-home" class="btn btn-text">返回首页</button>
+          <div class="nav-buttons-right">
+            <button id="btn-q-prev" class="btn btn-secondary">上一页</button>
+            <span id="page-info" class="page-info"></span>
+            <button id="btn-q-next" class="btn btn-primary">下一页</button>
+          </div>
         </div>
       </div>
     </section>
@@ -152,6 +155,11 @@
         <h2>问卷已完成，感谢您的参与！</h2>
 
         <div id="stats-summary" class="stats-summary"></div>
+
+        <div id="submit-status" class="submit-status">
+          <span id="submit-icon"></span>
+          <span id="submit-text">正在提交数据...</span>
+        </div>
 
         <p class="complete-hint">点击下方按钮导出您的作答数据为Excel文件</p>
         <button id="btn-export" class="btn btn-primary btn-large">导出 Excel</button>
