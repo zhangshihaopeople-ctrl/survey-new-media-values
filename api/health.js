@@ -3,6 +3,7 @@ const OWNER = 'zhangshihaopeople-ctrl';
 const REPO = 'survey-new-media-values';
 
 module.exports = async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
   try {
     const url = `https://api.github.com/repos/${OWNER}/${REPO}/contents/responses`;
     const fetchRes = await fetch(url, {
