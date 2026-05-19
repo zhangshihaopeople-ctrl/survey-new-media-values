@@ -14,7 +14,8 @@ async function writeFile(path, content) {
   });
   const res = await fetch(url, {
     method: 'PUT',
-    headers: { 'Authorization': `token ${GITHUB_TOKEN}`, 'Content-Type': 'application/json' }
+    headers: { 'Authorization': `token ${GITHUB_TOKEN}`, 'Content-Type': 'application/json' },
+    body: body
   });
   if (!res.ok) {
     const errBody = await res.text();
