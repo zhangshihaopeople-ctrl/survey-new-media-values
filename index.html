@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>基于新媒体对大学生价值观的影响 — 调查问卷</title>
+  <meta name="description" content="本问卷旨在了解新媒体对大学生价值观的影响，采用匿名方式，数据仅用于学术研究。">
+  <meta property="og:title" content="新媒体对大学生价值观影响调查问卷">
+  <meta property="og:description" content="匿名学术调查，约15分钟，感谢您的参与！">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- 进度条 -->
+  <div id="progress-bar">
+    <div id="progress-fill"></div>
+  </div>
+
+  <!-- 主容器 -->
+  <main id="app">
+    <!-- ==================== 欢迎页 ==================== -->
+    <section id="page-welcome" class="page">
+      <div class="page-content">
+        <div class="welcome-icon">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <h1>基于新媒体对大学生价值观的影响</h1>
+        <h2>调查问卷</h2>
+
+        <div class="info-card">
+          <p>您好！本问卷旨在了解新媒体（如微信、微博、抖音、B站、小红书等）对大学生价值观的影响。问卷采用<strong>匿名方式</strong>，所有数据仅用于学术研究，不涉及个人隐私，请放心作答。</p>
+          <ul class="info-list">
+            <li><span class="info-icon">📋</span> 共 <strong>100</strong> 道选择题</li>
+            <li><span class="info-icon">⏱️</span> 预计用时 <strong>10-15</strong> 分钟</li>
+            <li><span class="info-icon">🔒</span> 匿名填写，数据仅用于学术研究</li>
+            <li><span class="info-icon">💾</span> 进度自动保存，可中断后继续填写</li>
+          </ul>
+        </div>
+
+        <div id="resume-banner" class="resume-banner hidden">
+          <p>检测到您上次有未完成的问卷，是否继续填写？</p>
+          <button id="btn-resume" class="btn btn-primary">继续填写</button>
+          <button id="btn-restart" class="btn btn-text">重新开始</button>
+        </div>
+
+        <button id="btn-start" class="btn btn-primary btn-large">开始填写</button>
+      </div>
+    </section>
+
+    <!-- ==================== 基本信息页 ==================== -->
+    <section id="page-demographics" class="page hidden">
+      <div class="page-content">
+        <div class="section-header">
+          <span class="section-badge">第一部分</span>
+          <h2>基本信息</h2>
+          <p class="section-desc">以下信息仅用于统计分析，不会泄露您的个人隐私</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">1. 您的性别：<span class="required">*</span></label>
+          <div class="radio-group" data-field="gender">
+            <label class="radio-card"><input type="radio" name="gender" value="male"><span>男</span></label>
+            <label class="radio-card"><input type="radio" name="gender" value="female"><span>女</span></label>
+            <label class="radio-card"><input type="radio" name="gender" value="other"><span>其他</span></label>
+          </div>
+          <span class="error-msg" data-error="gender"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">2. 您的年级：<span class="required">*</span></label>
+          <div class="radio-group" data-field="grade">
+            <label class="radio-card"><input type="radio" name="grade" value="freshman"><span>大一</span></label>
+            <label class="radio-card"><input type="radio" name="grade" value="sophomore"><span>大二</span></label>
+            <label class="radio-card"><input type="radio" name="grade" value="junior"><span>大三</span></label>
+            <label class="radio-card"><input type="radio" name="grade" value="senior"><span>大四</span></label>
+            <label class="radio-card"><input type="radio" name="grade" value="postgrad"><span>研究生</span></label>
+          </div>
+          <span class="error-msg" data-error="grade"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">3. 您的专业类别：<span class="required">*</span></label>
+          <select id="select-major" class="form-select">
+            <option value="">请选择</option>
+            <option value="arts">文科（文学、历史、哲学等）</option>
+            <option value="science">理科（数学、物理、化学等）</option>
+            <option value="engineering">工科（计算机、机械、电子等）</option>
+            <option value="medicine">医学</option>
+            <option value="arts_design">艺术/设计/体育</option>
+            <option value="business">经管（经济、管理、金融等）</option>
+            <option value="law">法学</option>
+            <option value="education">教育学</option>
+            <option value="agriculture">农学</option>
+            <option value="other">其他</option>
+          </select>
+          <span class="error-msg" data-error="major"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">4. 您每日使用新媒体的时长（包括微信、微博、抖音、B站、小红书等）：<span class="required">*</span></label>
+          <div class="radio-group" data-field="usageTime">
+            <label class="radio-card"><input type="radio" name="usageTime" value="less1h"><span>&lt;1小时</span></label>
+            <label class="radio-card"><input type="radio" name="usageTime" value="1-3h"><span>1-3小时</span></label>
+            <label class="radio-card"><input type="radio" name="usageTime" value="3-5h"><span>3-5小时</span></label>
+            <label class="radio-card"><input type="radio" name="usageTime" value="5-8h"><span>5-8小时</span></label>
+            <label class="radio-card"><input type="radio" name="usageTime" value="over8h"><span>&gt;8小时</span></label>
+          </div>
+          <span class="error-msg" data-error="usageTime"></span>
+        </div>
+
+        <div class="nav-buttons">
+          <button id="btn-demo-prev" class="btn btn-secondary" disabled>上一步</button>
+          <button id="btn-demo-next" class="btn btn-primary">下一步</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 主问卷页 ==================== -->
+    <section id="page-questions" class="page hidden">
+      <div class="page-content">
+        <div class="section-header">
+          <span class="section-badge">第二部分</span>
+          <h2>问卷题目</h2>
+        </div>
+
+        <div id="dimension-badge" class="dimension-badge"></div>
+        <div id="page-indicator" class="page-indicator"></div>
+
+        <div id="question-container"></div>
+
+        <div class="nav-buttons">
+          <button id="btn-q-prev" class="btn btn-secondary">上一页</button>
+          <span id="page-info" class="page-info"></span>
+          <button id="btn-q-next" class="btn btn-primary">下一页</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 完成页 ==================== -->
+    <section id="page-complete" class="page hidden">
+      <div class="page-content">
+        <div class="complete-icon">
+          <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <h2>问卷已完成，感谢您的参与！</h2>
+
+        <div id="stats-summary" class="stats-summary"></div>
+
+        <p class="complete-hint">点击下方按钮导出您的作答数据为Excel文件</p>
+        <button id="btn-export" class="btn btn-primary btn-large">导出 Excel</button>
+        <button id="btn-reset" class="btn btn-text">重新填写</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Toast 提示 -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="js/questions.js"></script>
+  <script src="js/app.js"></script>
+  <!-- SheetJS: 优先jsdelivr(国内友好), 失败则用cdn.sheetjs.com -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.20.1/dist/xlsx.full.min.js"></script>
+  <script>
+    if (typeof XLSX === 'undefined') {
+      document.write('<script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"><\/script>');
+    }
+  </script>
+</body>
+</html>
