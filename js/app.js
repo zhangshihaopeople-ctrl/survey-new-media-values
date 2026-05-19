@@ -78,6 +78,11 @@ function restoreFromStorage() {
     STATE.answers = data.answers || {};
     STATE.currentQuestionPage = data.currentQuestionPage || 0;
     STATE.currentView = data.currentView || 'welcome';
+    const d = data.demographics || {};
+    const hasDemoData = !!(d.gender || d.grade || d.major || d.usageTime);
+    const hasAnswers = Object.keys(data.answers || {}).length > 0;
+    const hasData = hasDemoData || hasAnswers;
+    if (!hasData) return false;
     return !!(data.currentView && data.currentView !== 'welcome');
   } catch (e) {
     return false;
