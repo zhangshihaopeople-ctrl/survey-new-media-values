@@ -10,9 +10,8 @@ const TOTAL_PAGES = TOTAL_QUESTIONS / QUESTIONS_PER_PAGE; // 10
 const TOTAL_ITEMS = TOTAL_QUESTIONS + 4; // 100题 + 4道基本信息
 const STORAGE_KEY = 'survey_new_media_values';
 
-// 后端 API 地址（部署后端后替换为实际地址，如 'https://xxx.onrender.com'）
-// 留空则使用相对路径（前后端部署在同一服务器时）
-const API_BASE = '';
+// 后端 API 地址
+const API_BASE = 'https://survey-new-media-values.onrender.com';
 
 // ==================== 全局状态 ====================
 const STATE = {
