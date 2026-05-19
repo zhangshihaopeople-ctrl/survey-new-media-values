@@ -30,6 +30,10 @@ if (!fs.existsSync(DATA_DIR)) {
 app.use(cors());
 app.use(express.json({ limit: '1mb' }));
 
+// 静态文件（前端页面 + 管理后台）
+app.use(express.static(path.join(__dirname, '..')));
+app.use('/admin', express.static(path.join(__dirname, '..', 'admin')));
+
 // ==================== 工具函数 ====================
 
 function readResponses() {
