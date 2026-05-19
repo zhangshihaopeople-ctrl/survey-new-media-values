@@ -16,7 +16,10 @@ async function writeFile(path, content) {
     method: 'PUT',
     headers: { 'Authorization': `token ${GITHUB_TOKEN}`, 'Content-Type': 'application/json' }
   });
-  if (!res.ok) throw new Error('GitHub API error: ' + res.status);
+  if (!res.ok) {
+    const errBody = await res.text();
+    throw new Error(`GitHub API ${res.status}: ${errBody.slice(0, 200)}`);
+  }
   return res.json();
 }
 
