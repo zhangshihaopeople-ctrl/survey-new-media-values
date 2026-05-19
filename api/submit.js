@@ -42,6 +42,6 @@ module.exports = async (req, res) => {
     await writeFile(`responses/${filename}`, JSON.stringify(record, null, 2));
     res.json({ success: true, filename });
   } catch (e) {
-    res.status(500).json({ error: '保存失败' });
+    res.status(500).json({ error: '保存失败: ' + e.message });
   }
 };
