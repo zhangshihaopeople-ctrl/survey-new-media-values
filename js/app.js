@@ -11,7 +11,7 @@ const TOTAL_ITEMS = TOTAL_QUESTIONS + 4; // 100题 + 4道基本信息
 const STORAGE_KEY = 'survey_new_media_values';
 
 // 后端 API 地址
-const API_BASE = 'https://survey-new-media-values.onrender.com';
+const API_BASE = 'https://survey-new-media-values-fa7i.vercel.app';
 
 // ==================== 全局状态 ====================
 const STATE = {

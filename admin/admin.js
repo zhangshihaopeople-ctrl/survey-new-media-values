@@ -3,7 +3,7 @@
  */
 
 // 后端 API 地址（部署后替换为实际地址）
-const API_BASE = 'https://survey-new-media-values.onrender.com';
+const API_BASE = 'https://survey-new-media-values-fa7i.vercel.app';
 
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => document.querySelectorAll(sel);

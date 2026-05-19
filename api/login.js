@@ -1,7 +1,24 @@
 const crypto = require('crypto');
-const { kv } = require('@vercel/kv');
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'survey2026admin';
+const TOKEN_SECRET = process.env.TOKEN_SECRET || 'survey-secret-key-2026';
+
+function generateToken() {
+  const ts = Date.now();
+  const sig = crypto.createHmac('sha256', TOKEN_SECRET).update(String(ts)).digest('hex');
+  return `${ts}:${sig}`;
+}
+
+function verifyToken(token) {
+  if (!token) return false;
+  const parts = token.split(':');
+  if (parts.length !== 2) return false;
+  const [ts, sig] = parts;
+  const expected = crypto.createHmac('sha256', TOKEN_SECRET).update(ts).digest('hex');
+  if (sig !== expected) return false;
+  // 24小时有效
+  return (Date.now() - Number(ts)) < 86400000;
+}
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
@@ -16,8 +33,8 @@ module.exports = async (req, res) => {
     return res.status(401).json({ error: '密码错误' });
   }
 
-  const token = crypto.randomBytes(32).toString('hex');
-  await kv.set(`token:${token}`, Date.now() + 86400000); // 24h
-
+  const token = generateToken();
   res.json({ success: true, token });
 };
+
+module.exports.verifyToken = verifyToken;
